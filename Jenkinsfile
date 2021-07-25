@@ -14,8 +14,6 @@ pipeline {
             }
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'webapp', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])  {
-                    sh 'echo $AWS_ACCESS_KEY_ID'
-                    sh 'echo $AWS_SECRET_ACCESS_KEY'
                     
                     sshPublisher(
                         failOnError: true,
