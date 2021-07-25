@@ -13,7 +13,10 @@ pipeline {
                 branch 'master'
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'deployLogin', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'webapp', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])  {
+                    sh 'echo $AWS_ACCESS_KEY_ID'
+                    sh 'echo $AWS_SECRET_ACCESS_KEY'
+                    
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
@@ -21,8 +24,8 @@ pipeline {
                             sshPublisherDesc(
                                 configName: 'staging',
                                 sshCredentials: [
-                                    username: "$USERNAME",
-                                    encryptedPassphrase: "$USERPASS"
+                                    accessKeyVariabl: "$AWS_ACCESS_KEY_ID",
+                                    secretKeyVariable: "$AWS_SECRET_ACCESS_KEY"
                                 ], 
                                 transfers: [
                                     sshTransfer(
